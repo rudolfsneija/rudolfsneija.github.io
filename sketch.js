@@ -11,35 +11,48 @@ let settings = {
     alpha: 6,
 };
 
+let showTools = false;
+
 let sliderStartX = 40;
 let sliderStartY;
 let sliderSpacing = 200;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight).parent('render-container');
-    // createCanvas(windowWidth, windowHeight - 130).parent('render-container');
+    if (showTools) {
+        createCanvas(windowWidth, windowHeight - 130).parent('render-container');
+    } else {
+        createCanvas(windowWidth, windowHeight).parent('render-container');
+    }
+
 
     background('rgba(7, 1, 14, 1)');
 
-    sliderStartY = height + 50;
+    if (showTools) {
+        sliderStartY = height + 50;
 
-    createSliderAndLabel('count', 0, 10000, settings.count, 50);
-    createSliderAndLabel('noise', 0, 0.01, settings.noise, 0.0001);
-    createSliderAndLabel('speed', 0.05, 2, settings.speed, 0.05);
-    createSliderAndLabel('size', 0, 8, settings.size, 0.1);
-    createSliderAndLabel('alpha', 0, 100, settings.alpha, 1);
+        createSliderAndLabel('count', 0, 10000, settings.count, 50);
+        createSliderAndLabel('noise', 0, 0.01, settings.noise, 0.0001);
+        createSliderAndLabel('speed', 0.05, 2, settings.speed, 0.05);
+        createSliderAndLabel('size', 0, 8, settings.size, 0.1);
+        createSliderAndLabel('alpha', 0, 100, settings.alpha, 1);
 
-    frameRateText = createP();
-    frameRateText.position(width - 100, sliderStartY);
-    frameRateText.style('color', '#fff');
+        frameRateText = createP();
+        frameRateText.position(width - 100, sliderStartY);
+        frameRateText.style('color', '#fff');
+    }
 
     createParticles();
 }
 
 function draw() {
-    updateSettingsAndLabels();
+    if (showTools) {
+        updateSettingsAndLabels();
+        displayFrameRate();
+        background(7, 9, 14, sliders.alpha.value());
+    } else {
+        background(7, 9, 14, settings.alpha);
+    }
 
-    background(7, 9, 14, sliders.alpha.value());
 
     // Adjust the number of particles according to the slider
     while (particles.length < settings.count) {
@@ -69,7 +82,6 @@ function draw() {
         point(p.pos.x, p.pos.y);
     });
 
-    displayFrameRate();
 }
 
 function createSliderAndLabel(name, min, max, value, step) {
