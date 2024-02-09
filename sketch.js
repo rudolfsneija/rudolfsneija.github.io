@@ -5,10 +5,10 @@ let frameRateText;
 
 let settings = {
     count: 4000,
-    noise: 0.002,
-    speed: 0.6,
-    size: 1,
-    alpha: 20,
+    noise: 0.008,
+    speed: 0.4,
+    size: 0.8,
+    alpha: 6,
 };
 
 let sliderStartX = 40;
@@ -16,7 +16,9 @@ let sliderStartY;
 let sliderSpacing = 200;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight - 130).parent('render-container');
+    createCanvas(windowWidth, windowHeight).parent('render-container');
+    // createCanvas(windowWidth, windowHeight - 130).parent('render-container');
+
     background('rgba(7, 1, 14, 1)');
 
     sliderStartY = height + 50;
@@ -118,7 +120,7 @@ function isOnScreen(point) {
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth, windowHeight - 130);
+    resizeCanvas(windowWidth, windowHeight);
 }
 
 function keyPressed() {
